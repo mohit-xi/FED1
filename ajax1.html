@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+  
+$(document).ready(function(){
+ 
+ $("#btn1").click(function(){
+  var amt=$("#amount").val();
+  var temp=$("#country").val();
+  var cont=temp.toUpperCase();
+   $.ajax({
+            url: 'https://api.exchangerate-api.com/v4/latest/USD',
+            success: function (data) {
+              //document.write(data.base+"<br>");
+              for(item in data.rates){
+              if(item==cont){
+                var total=data.rates[item]*amt;
+              content2=amt+" USD to "+item+" is "+total+"<br>";}
+          }
+          $("#mydiv2").append(content2);
+        }
+    });
+ });
+
+
+// $("#btn2").click(function(){
+  $.ajax({
+    url: 'https://api.exchangerate-api.com/v4/latest/USD',
+    success: function (data) {
+      $("#mydiv").html("");
+      content="<table class='table table-bordered table-dark table-hover table-condensed table-striped' style='width:50%'><thead><tr><th scope='col'>COUNTRY CODE</th><th scope='col'>VALUE</th></thead>";
+      for(item in data.rates){
+        content+="<tr><td>"+item+"</td> <td>"+data.rates[item]+"</td></tr>";
+
+      }
+    content+="</table>";
+    $("#mydiv").append(content);
+    }
+  })
+ //});
+});
+</script>
+</head>
+<body>
+  <div class="container">
+<center><span><h1 style="color: purple">USD CONVERSION<img src="dollar.png" width="60px" height="60px;" id="img"></h1></span></center>
+<center><span><h4><input type="text" id="amount" placeholder="Enter amount">&nbsp
+  <input type="text" id="country" placeholder="Enter country code"></h2></span></center>
+<center><span><h4><button id="btn1">GET RESULT</button></h4></span></center>
+<br><br>
+<div id="mydiv2" align="center" style="color:purple;font-size:3.5em;text-shadow:5px 5px 5px whitesmoke;font-family: Trebuchet MS"></div>
+<div id="mydiv" align="center"></div></div>
+</body>
+</html>
